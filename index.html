@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construcciones PencaMan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* --- ESTILOS GENERALES Y VARIABLES --- */
+        :root {
+            --color-primario: #2c3e50; /* Azul oscuro */
+            --color-secundario: #3498db; /* Azul claro */
+            --color-acento: #f39c12; /* Naranja/Amarillo vibrante */
+            --color-fondo: #ecf0f1;
+            --color-texto: #34495e;
+            --color-blanco: #ffffff;
+            --fuente-principal: 'Poppins', sans-serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        section {
+            padding: 80px 0;
+            overflow: hidden;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: var(--color-primario);
+            font-weight: 700;
+        }
+        h3 {
+             color: var(--color-primario);
+             font-size: 1.8rem;
+             margin-bottom: 20px;
+        }
+        /* --- HEADER Y NAVEGACIÓN --- */
+        .header {
+            background-color: var(--color-blanco);
+            color: var(--color-primario);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primario);
+            text-decoration: none;
+        }
+        .logo i {
+            color: var(--color-acento);
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 35px;
+        }
+        .nav-links a {
+            color: var(--color-primario);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--color-acento);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--color-acento);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        /* --- SECCIÓN HERO --- */
+        .hero {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.75), rgba(44, 62, 80, 0.75)), url('https://images.pexels.com/photos/1216544/pexels-photo-1216544.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--color-blanco);
+            text-align: center;
+            padding: 150px 0;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            background-color: var(--color-acento);
+            color: var(--color-blanco);
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn:hover {
+            background-color: #e67e22; /* Naranja más oscuro */
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        /* Estructura de dos columnas genérica */
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        /* --- SECCIÓN SOBRE NOSOTROS --- */
+        #sobre-nosotros {
+            background-color: var(--color-blanco);
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .about-content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        /* --- SECCIÓN VALORES --- */
+        #valores {
+            padding: 60px 0;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .value-item i {
+            font-size: 2.5rem;
+            color: var(--color-acento);
+            margin-bottom: 15px;
+        }
+        .value-item h4 {
+            font-size: 1.2rem;
+            color: var(--color-primario);
+            font-weight: 500;
+        }
+        /* --- SECCIONES CON TARJETAS (SERVICIOS, PROYECTOS) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background-color: var(--color-blanco);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 28px rgba(44, 62, 80, 0.2);
+            border-color: var(--color-acento);
+        }
+        .card-icon {
+            font-size: 3.5rem;
+            color: var(--color-acento);
+            margin: 30px 0 20px 0;
+            transition: transform 0.3s ease;
+        }
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        .card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 25px;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--color-secundario);
+        }
+        /* --- SECCIÓN DE TESTIMONIOS --- */
+        .grid-2-cols {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .testimonial-card {
+            background-color: var(--color-fondo);
+            border-left: 5px solid var(--color-acento);
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 0 8px 8px 0;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        .testimonial-card p::before {
+            content: '\f10d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--color-acento);
+            margin-right: 10px;
+            opacity: 0.7;
+        }
+        .testimonial-author {
+            font-weight: 700;
+            text-align: right;
+            color: var(--color-primario);
+        }
+        /* --- BANNER CTA --- */
+        .cta-banner {
+            background-color: var(--color-secundario);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--color-blanco);
+            border-radius: 12px;
+        }
+        .cta-banner h2 {
+            color: var(--color-blanco);
+            margin-bottom: 20px;
+        }
+        .cta-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        /* --- SECCIÓN FAQ --- */
+        #faq {
+            background-color: var(--color-blanco);
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-answer p {
+            padding-top: 15px;
+            line-height: 1.7;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Ajusta si las respuestas son largas */
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        /* --- SECCIÓN DE CONTACTO --- */
+        .contact-info h3 {
+            font-size: 1.8rem;
+        }
+        .contact-info p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        .contact-info .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .contact-info i {
+            color: var(--color-secundario);
+            margin-right: 15px;
+            width: 20px;
+            font-size: 1.2rem;
+        }
+        .contact-info a {
+            color: var(--color-texto);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: var(--color-secundario);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-secundario);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1DAE54;
+        }
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--color-primario);
+            color: var(--color-blanco);
+            text-align: center;
+            padding: 40px 0;
+        }
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        .social-links a {
+            color: var(--color-blanco);
+            text-decoration: none;
+            font-size: 1.8rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--color-acento);
+        }
+        /* --- BOTÓN VOLVER ARRIBA --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--color-acento);
+            color: var(--color-blanco);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+            z-index: 100;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background-color: #e67e22;
+            transform: scale(1.1);
+        }
+        /* --- ESTILOS RESPONSIVOS --- */
+        @media (max-width: 992px) {
+            .grid-2-cols, .two-column-layout {
+                grid-template-columns: 1fr;
+            }
+            .about-image {
+                margin-bottom: 30px;
+                order: -1; /* Mover imagen arriba en móvil */
+            }
+        }
+        @media (max-width: 768px) {
+             h2 {
+                font-size: 2.2rem;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 70px; /* Ajusta según la altura del header */
+                left: 0;
+                background-color: var(--color-blanco);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                text-align: center;
+                margin: 0;
+            }
+            .nav-links a {
+                display: block;
+                padding: 20px 0;
+                border-top: 1px solid var(--color-fondo);
+            }
+            .nav-links a::after {
+                display: none; /* Ocultar efecto de subrayado en móvil */
+            }
+            .menu-icon {
+                display: block;
+            }
+            .contact-info {
+                text-align: center;
+            }
+            .contact-info .info-item {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container navbar">
+            <a href="#" class="logo"><i class="fas fa-hard-hat"></i> PencaMan</a>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#hero">Inicio</a></li>
+                    <li><a href="#sobre-nosotros">Nosotros</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#proyectos">Proyectos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="menu-icon" id="menu-icon">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="hero" id="hero">
+            <div class="container" data-aos="fade-in" data-aos-duration="1000">
+                <h1>Construimos Tus Sueños</h1>
+                <p>Calidad, confianza y profesionalismo en cada proyecto que realizamos.</p>
+                <a href="#contacto" class="btn">Solicitar Cotización</a>
+            </div>
+        </section>
+        <section id="sobre-nosotros">
+            <div class="container">
+                <h2 data-aos="fade-up">Nuestra Historia</h2>
+                <div class="two-column-layout">
+                    <div class="about-image" data-aos="fade-right">
+                        <img src="https://images.pexels.com/photos/159306/construction-site-build-construction-work-159306.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="[Imagen de un trabajador de la construcción sonriendo]">
+                    </div>
+                    <div class="about-content" data-aos="fade-left">
+                        <h3>De un sueño personal a un proyecto para todos</h3>
+                        <p>Somos una pequeña empresa que nació con una idea simple: mejorar mi propio hogar. Lo que comenzó como un proyecto personal, poco a poco se convirtió en una pasión y una forma de vida.</p>
+                        <p>Con el tiempo, he ido ganando valiosa experiencia, trabajando en distintos proyectos para subsistir y, lo más importante, para ayudar a la gente a cumplir sus sueños y mejorar sus espacios. Cada trabajo es una oportunidad para entregar calidad, confianza y un servicio cercano, asegurando que cada cliente quede completamente satisfecho.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="valores">
+            <div class="container" data-aos="fade-up">
+                <div class="values-grid">
+                    <div class="value-item">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Calidad Garantizada</h4>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-clock"></i>
+                        <h4>Puntualidad</h4>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-hand-sparkles"></i>
+                        <h4>Limpieza y Orden</h4>
+                    </div>
+                    <div class="value-item">
+                        <i class="fas fa-comments"></i>
+                        <h4>Comunicación Clara</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="servicios" style="background-color: var(--color-blanco);">
+            <div class="container">
+                <h2 data-aos="fade-up">Nuestros Servicios</h2>
+                <div class="grid">
+                    <div class="card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-icon"><i class="fas fa-home"></i></div>
+                        <div class="card-content">
+                            <h3>Remodelaciones</h3>
+                            <p>Transformamos tus espacios. Cobertizos, cambios de piso, pintura y arreglos de cualquier tipo.</p>
+                        </div>
+                    </div>
+                    <div class="card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-icon"><i class="fas fa-tools"></i></div>
+                        <div class="card-content">
+         
